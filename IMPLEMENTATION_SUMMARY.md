@@ -134,7 +134,7 @@ export const brandBFields = {
 ## 📋 Next Steps
 
 1. **Test the setup** by running `npm run dev` and using the workspace dropdown
-2. **Add more brands** by following the pattern in `brand-c-example.ts`
+2. **Add more brands**
 3. **Add more field types** to base schemas as needed
 4. **Customize brand-specific fields** based on business requirements
 

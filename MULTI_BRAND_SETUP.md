@@ -53,7 +53,7 @@ Edit the base schema files in `schemaTypes/base/`:
 Edit the brand-specific files in `schemaTypes/brands/`:
 - `brand-a.ts` - Add to `brandAFields`
 - `brand-b.ts` - Add to `brandBFields`
-- `brand-c.ts` - Add to `brandBFields`
+- `brand-c.ts` - Add to `brandCFields`
   
 ### Schema Extension Pattern
 

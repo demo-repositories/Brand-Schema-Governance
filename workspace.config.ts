@@ -4,13 +4,19 @@ export const WORKSPACE_CONFIG = {
     name: 'brand-a',
     title: 'Brand A',
     description: 'Brand A workspace with base schemas',
-    dataset: 'production',
+    dataset: 'brand-a',
   },
   'brand-b': {
     name: 'brand-b',
     title: 'Brand B',
     description: 'Brand B workspace with extended schemas',
-    dataset: 'production',
+    dataset: 'brand-b',
+  },
+  'brand-c': {
+    name: 'brand-c',
+    title: 'Brand C',
+    description: 'Brand C workspace with extended schemas',
+    dataset: 'brand-c',
   },
 } as const
 
