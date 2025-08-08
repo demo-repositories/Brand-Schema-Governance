@@ -17,6 +17,12 @@ const workspaces = {
     description: 'Brand B workspace with extended schemas',
     dataset: 'brand-b',
   },
+  'brand-c': {
+    name: 'brand-c',
+    title: 'Brand C',
+    description: 'Brand C workspace with extended schemas',
+    dataset: 'brand-c',
+  },
 } as const
 
 // Create workspace configurations

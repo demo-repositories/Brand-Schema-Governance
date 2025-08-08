@@ -1,6 +1,6 @@
-import blockContent from './blockContent'
 import {brandASchemas} from './brands/brand-a'
 import {brandBSchemas} from './brands/brand-b'
+import { brandCSchemas } from './brands/brand-c'
 
 // Get brand from environment variable, default to 'brand-a'
 const BRAND = process.env.SANITY_BRAND || 'brand-a'
@@ -12,6 +12,8 @@ const getSchemaTypes = (brand: string) => {
       return brandASchemas
     case 'brand-b':
       return brandBSchemas
+    case 'brand-c':
+      return brandCSchemas
     default:
       console.warn(`Unknown brand: ${brand}, falling back to brand-a`)
       return brandASchemas

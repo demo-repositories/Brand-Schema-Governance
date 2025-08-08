@@ -17,13 +17,6 @@ export const brandCFields = {
       ],
     }),
   ],
-  category: [
-    defineField({
-      name: 'color',
-      title: 'Category Color',
-      type: 'color',
-    }),
-  ],
   post: [
     defineField({
       name: 'seo',
@@ -35,6 +28,7 @@ export const brandCFields = {
       ],
     }),
   ],
+  category: [],
 }
 
 export const brandCSchemas = [
@@ -43,11 +37,3 @@ export const brandCSchemas = [
   createPostSchema(brandCFields.post),
   blockContent,
 ]
-
-// To use Brand C, you would:
-// 1. Rename this file to brand-c.ts
-// 2. Add to schemaTypes/index.ts:
-//    case 'brand-c':
-//      return brandCSchemas
-// 3. Add to workspace.config.ts
-// 4. Add npm scripts for brand-c 
