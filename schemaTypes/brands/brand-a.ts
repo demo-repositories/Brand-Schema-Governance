@@ -1,4 +1,3 @@
-import {defineField} from 'sanity'
 import {createAuthorSchema} from '../base/author'
 import {createCategorySchema} from '../base/category'
 import {createPostSchema} from '../base/post'

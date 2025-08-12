@@ -12,6 +12,7 @@ A Sanity Content Studio implementation featuring a multi-brand workspace setup w
 ### Schema Organization
 - **Base Schemas** (`schemaTypes/base/`) - Fields shared across all brands
 - **Brand Extensions** (`schemaTypes/brands/`) - Brand-specific field additions
+- **Shared Fields** (`schemaTypes/shared/`) - Reusable field structures (SEO, Social Media, etc.)
 - **Spread Operator Pattern** - Combines base and brand-specific fields
 
 ## 🚀 Getting Started
@@ -54,6 +55,9 @@ schemaTypes/
 │   ├── brand-b.ts         # Brand B (with extra fields)
 │   ├── brand-c.ts         # Brand C (with extra fields)
 │   └── index.ts           # Brand exports
+├── shared/                 # Reusable field structures
+│   ├── fields.ts          # Shared field definitions (SEO, Social Media)
+│   └── index.ts           # Shared exports
 ├── blockContent.ts         # Shared block content schema
 └── index.ts               # Conditional schema loader
 ```
@@ -62,8 +66,48 @@ schemaTypes/
 
 ### Brand-Specific Field Extensions
 - **Brand A**: Uses base schemas only
-- **Brand B**: Extends with `brandBExtraField` on Author and Category
-- **Brand C**: Extends with Social Media fields on Author and SEO fields on Post
+- **Brand B**: Extends with `brandBExtraField` on Author and Category, plus shared SEO fields
+- **Brand C**: Extends with shared Social Media fields on Author and shared SEO fields on Post
+
+### Shared Field Structures
+The project includes reusable field definitions that can be shared across multiple brands:
+
+#### SEO Field (`seoField`)
+A comprehensive SEO object that includes:
+- Meta Title
+- Meta Description  
+- Keywords (array of strings)
+- Open Graph Image
+- Canonical URL
+
+#### Social Media Field (`socialMediaField`)
+A social media links object that includes:
+- Twitter
+- LinkedIn
+- Facebook
+- Instagram
+
+#### Usage Examples
+```typescript
+import {createBrandFields} from '../shared/fields'
+
+// Brand with SEO only
+export const brandFields = createBrandFields({
+  seo: true,
+})
+
+// Brand with both SEO and social media
+export const brandFields = createBrandFields({
+  seo: true,
+  socialMedia: true,
+})
+
+// Brand with shared fields plus custom fields
+export const brandFields = createBrandFields({
+  seo: true,
+  additionalAuthorFields: [customField],
+})
+```
 
 ### Workspace Management
 - **URL-Based Navigation**: Each workspace has its own URL path
@@ -95,6 +139,23 @@ Edit brand-specific files in `schemaTypes/brands/`:
 - `brand-a.ts` - Add to `brandAFields`
 - `brand-b.ts` - Add to `brandBFields`
 - `brand-c.ts` - Add to `brandCFields`
+
+### Using Shared Fields
+To add shared SEO or social media fields to a brand:
+```typescript
+import {createBrandFields} from '../shared/fields'
+
+export const brandFields = createBrandFields({
+  seo: true,           // Adds SEO fields to posts and categories
+  socialMedia: true,   // Adds social media fields to authors
+})
+```
+
+### Adding New Shared Fields
+To create new shared field structures:
+1. Add field definitions to `schemaTypes/shared/fields.ts`
+2. Update the `createBrandFields` function to include the new options
+3. Update this README with usage examples
 
 ## 📖 Learn More
 
