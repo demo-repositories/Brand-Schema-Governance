@@ -10,6 +10,7 @@
 ### 2. **Schema Governance Approach**
 - **Base Schemas** (`schemaTypes/base/`): Shared fields across all brands
 - **Brand Extensions** (`schemaTypes/brands/`): Brand-specific field additions
+- **Shared Fields** (`schemaTypes/shared/`): Reusable field structures (SEO, Social Media)
 - **Spread Operator Pattern**: Used to combine base and brand-specific fields
 
 ### 3. **Workspace Dropdown Support**
@@ -18,11 +19,17 @@
 - Each workspace has its own URL path
 
 ### 4. **Brand-Specific Field Extensions**
-- **Brand-B Author**: Added `brandBExtraField` (string)
-- **Brand-B Category**: Added `brandBExtraField` (string)
-- **Brand-B Post**: No additional fields (uses base only)
-- **Brand-C Author**: Added Social media fields
-- **Brand-C Post**: Added SEO fields
+- **Brand-B Author**: Added `brandBExtraField` (string) + shared SEO fields
+- **Brand-B Category**: Added `brandBExtraField` (string) + shared SEO fields
+- **Brand-B Post**: Uses shared SEO fields only
+- **Brand-C Author**: Added shared Social media fields
+- **Brand-C Post**: Added shared SEO fields
+- **Brand-C Category**: No additional fields (uses base only)
+
+### 5. **Shared Field Structures**
+- **SEO Field**: Comprehensive SEO object with meta title, description, keywords, OG image, and canonical URL
+- **Social Media Field**: Social media links object with Twitter, LinkedIn, Facebook, and Instagram
+- **Helper Function**: `createBrandFields()` for easy configuration of shared fields
 
 
 ## 📁 File Structure Created
@@ -39,6 +46,9 @@ schemaTypes/
 │   ├── brand-b.ts         # Brand B (with extra fields)
 │   ├── brand-c.ts         # Brand C (with extra fields)
 │   └── index.ts           # Brand exports
+├── shared/                 # Reusable field structures
+│   ├── fields.ts          # Shared field definitions (SEO, Social Media)
+│   └── index.ts           # Shared exports
 ├── blockContent.ts         # Shared block content
 └── index.ts               # Conditional schema loader
 ```
@@ -121,6 +131,28 @@ export const brandBFields = {
 }
 ```
 
+**Using Shared Fields**:
+```typescript
+import {createBrandFields} from '../shared/fields'
+
+// Brand with SEO only
+export const brandFields = createBrandFields({
+  seo: true,
+})
+
+// Brand with both SEO and social media
+export const brandFields = createBrandFields({
+  seo: true,
+  socialMedia: true,
+})
+
+// Brand with shared fields plus custom fields
+export const brandFields = createBrandFields({
+  seo: true,
+  additionalAuthorFields: [customField],
+})
+```
+
 ## 🎯 Benefits Achieved
 
 1. **Built-in Workspace Switching**: Uses Sanity's native workspace dropdown
@@ -130,6 +162,7 @@ export const brandBFields = {
 5. **URL-Based Navigation**: Each workspace has its own URL for direct access
 6. **Type Safety**: Full TypeScript support
 7. **Extensibility**: Spread operator pattern makes it easy to extend schemas
+8. **Shared Field Reusability**: Common field structures (SEO, Social Media) can be shared across brands
 
 ## 📋 Next Steps
 

@@ -10,7 +10,8 @@ The schema is organized using a governance approach that separates:
 
 1. **Base Schemas** (`schemaTypes/base/`) - Fields that every brand shares
 2. **Brand-Specific Extensions** (`schemaTypes/brands/`) - Fields specific to each brand
-3. **Workspace Dropdown** - Built-in Sanity workspace switching
+3. **Shared Fields** (`schemaTypes/shared/`) - Reusable field structures (SEO, Social Media, etc.)
+4. **Workspace Dropdown** - Built-in Sanity workspace switching
 
 ### 📁 File Structure
 
@@ -26,6 +27,9 @@ schemaTypes/
 │   ├── brand-b.ts         # Brand B schemas (with extra fields)
 |   ├── brand-c.ts         # Brand C schemas (with extra fields)
 │   └── index.ts           # Brand exports
+├── shared/                 # Reusable field structures
+│   ├── fields.ts          # Shared field definitions (SEO, Social Media)
+│   └── index.ts           # Shared exports
 ├── blockContent.ts         # Shared block content schema
 └── index.ts               # Conditional schema loader
 ```
@@ -54,6 +58,29 @@ Edit the brand-specific files in `schemaTypes/brands/`:
 - `brand-a.ts` - Add to `brandAFields`
 - `brand-b.ts` - Add to `brandBFields`
 - `brand-c.ts` - Add to `brandCFields`
+
+#### Using Shared Fields
+To add shared SEO or social media fields to a brand:
+```typescript
+import {createBrandFields} from '../shared/fields'
+
+// Brand with SEO only
+export const brandFields = createBrandFields({
+  seo: true,
+})
+
+// Brand with both SEO and social media
+export const brandFields = createBrandFields({
+  seo: true,
+  socialMedia: true,
+})
+
+// Brand with shared fields plus custom fields
+export const brandFields = createBrandFields({
+  seo: true,
+  additionalAuthorFields: [customField],
+})
+```
   
 ### Schema Extension Pattern
 
@@ -97,16 +124,34 @@ export const brandBFields = {
 
 ### Brand C
 - Extends base schemas with additional fields:
-  - **Author**: `socialMedia` (object)
-  - **Post**: `seo` (object)
+  - **Author**: `socialMedia` (object) - uses shared social media field structure
+  - **Post**: `seo` (object) - uses shared SEO field structure
   - **Category**: No additional fields
 
 ## Adding New Brands
 
-1. Create a new brand file in `schemaTypes/brands/` (e.g., `brand-c.ts`)
+1. Create a new brand file in `schemaTypes/brands/` (e.g., `brand-d.ts`)
 2. Define brand-specific fields using the same pattern
 3. Add the brand to the `getSchemaTypes` function in `schemaTypes/index.ts`
 4. Add the brand configuration to `sanity.config.ts`
+
+### Example: Adding a New Brand with Shared Fields
+```typescript
+// In schemaTypes/brands/brand-d.ts
+import {createBrandFields} from '../shared/fields'
+
+export const brandDFields = createBrandFields({
+  seo: true,
+  socialMedia: true,
+})
+
+export const brandDSchemas = [
+  createAuthorSchema(brandDFields.author),
+  createCategorySchema(brandDFields.category),
+  createPostSchema(brandDFields.post),
+  blockContent,
+]
+```
 
 Example:
 ```typescript
@@ -190,4 +235,6 @@ If issues arise during migration:
 - **Maintainability**: Base schemas are shared, reducing duplication
 - **Scalability**: Easy to add new brands with their own field extensions
 - **Type Safety**: TypeScript support for brand-specific configurations
-- **URL-Based Navigation**: Each workspace has its own URL for direct access 
+- **URL-Based Navigation**: Each workspace has its own URL for direct access
+- **Shared Field Reusability**: Common field structures (SEO, Social Media) can be shared across brands
+- **DRY Principle**: Define field structures once, use everywhere 
